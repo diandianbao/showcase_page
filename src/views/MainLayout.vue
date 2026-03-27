@@ -23,7 +23,7 @@
               @click="$router.push('/my-todos')"
             >
               <el-icon><Document /></el-icon>
-              <span>我的代办</span>
+              <span>我的待办</span>
             </li>
             <li
               class="nav-item"
@@ -65,11 +65,27 @@
           <ul class="nav-list">
             <li
               class="nav-item"
-              :class="{ active: $route.name === 'Evaluation' }"
-              @click="$router.push('/evaluation')"
+              :class="{ active: $route.name === 'Evaluation' && $route.query.type === 'online' }"
+              @click="$router.push('/evaluation?type=online')"
             >
-              <el-icon><ScaleToOriginal /></el-icon>
-              <span>评估</span>
+              <el-icon><Connection /></el-icon>
+              <span>在线评估</span>
+            </li>
+            <li
+              class="nav-item"
+              :class="{ active: $route.name === 'Evaluation' && $route.query.type === 'offline' }"
+              @click="$router.push('/evaluation?type=offline')"
+            >
+              <el-icon><FolderOpened /></el-icon>
+              <span>离线评估</span>
+            </li>
+            <li
+              class="nav-item"
+              :class="{ active: $route.name === 'Evaluation' && $route.query.type === 'annotation' }"
+              @click="$router.push('/evaluation?type=annotation')"
+            >
+              <el-icon><EditPen /></el-icon>
+              <span>人工标注</span>
             </li>
           </ul>
         </div>
@@ -80,11 +96,19 @@
           <ul class="nav-list">
             <li
               class="nav-item"
-              :class="{ active: $route.name === 'BadCase' }"
-              @click="$router.push('/badcase')"
+              :class="{ active: $route.name === 'BadCase' && $route.query.type === 'handling' }"
+              @click="$router.push('/badcase?type=handling')"
             >
               <el-icon><Warning /></el-icon>
-              <span>BadCase 分析</span>
+              <span>运营处理</span>
+            </li>
+            <li
+              class="nav-item"
+              :class="{ active: $route.name === 'BadCase' && $route.query.type === 'todos' }"
+              @click="$router.push('/badcase?type=todos')"
+            >
+              <el-icon><Checked /></el-icon>
+              <span>个人待办</span>
             </li>
           </ul>
         </div>
@@ -108,6 +132,14 @@
             >
               <el-icon><Aim /></el-icon>
               <span>意图</span>
+            </li>
+            <li
+              class="nav-item"
+              :class="{ active: $route.name === 'Knowledge' }"
+              @click="$router.push('/knowledge')"
+            >
+              <el-icon><Document /></el-icon>
+              <span>知识库</span>
             </li>
             <li
               class="nav-item"
@@ -146,7 +178,7 @@
 </template>
 
 <script setup>
-import { Monitor, Document, DataAnalysis, Connection, ChatDotRound, ScaleToOriginal, Warning, EditPen, Aim, Collection, Notebook } from '@element-plus/icons-vue'
+import { Monitor, Document, DataAnalysis, Connection, ChatDotRound, FolderOpened, EditPen, Aim, Collection, Notebook, Warning, Checked } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>

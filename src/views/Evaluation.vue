@@ -1,31 +1,6 @@
 <template>
   <div class="evaluation-page">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2 class="sidebar-title">评估中心</h2>
-      </div>
-      <el-menu
-        :default-active="activeMenu"
-        class="sidebar-menu"
-        @select="handleMenuSelect"
-      >
-        <el-menu-item index="online">
-          <el-icon><Connection /></el-icon>
-          <span>在线评估</span>
-        </el-menu-item>
-        <el-menu-item index="offline">
-          <el-icon><FolderOpened /></el-icon>
-          <span>离线评估</span>
-        </el-menu-item>
-        <el-menu-item index="annotation">
-          <el-icon><EditPen /></el-icon>
-          <span>人工标注</span>
-        </el-menu-item>
-      </el-menu>
-    </aside>
-
-    <main class="main-content">
-      <template v-if="activeMenu === 'online'">
+    <div v-show="activeMenu === 'online'" class="page-container">
         <div class="page-header">
           <h1 class="page-title">在线评估</h1>
           <p class="page-desc">实时采集应用数据，使用评估器或人工进行评估</p>
@@ -146,9 +121,8 @@
             />
           </div>
         </div>
-      </template>
-
-      <template v-if="activeMenu === 'offline'">
+      </div>
+      <div v-show="activeMenu === 'offline'" class="page-container">
         <div class="page-header">
           <h1 class="page-title">离线评估</h1>
           <p class="page-desc">使用数据集和评估器进行离线批量评估</p>
@@ -303,9 +277,8 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-      </template>
-
-      <template v-if="activeMenu === 'annotation'">
+      </div>
+      <div v-show="activeMenu === 'annotation'" class="page-container">
         <div class="page-header">
           <h1 class="page-title">人工标注</h1>
           <p class="page-desc">对采集的数据进行人工标注，用于评估和模型优化</p>
@@ -500,19 +473,20 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-      </template>
-    </main>
-  </div>
+      </div>
+    </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import {
   Connection, FolderOpened, EditPen, Search, VideoPlay, Plus, Upload,
   Document, Edit, CircleCheckFilled, User
 } from '@element-plus/icons-vue'
 
-const activeMenu = ref('online')
+const route = useRoute()
+const activeMenu = computed(() => route.query.type || 'online')
 const offlineTab = ref('tasks')
 const annotationTab = ref('tasks')
 
@@ -531,10 +505,6 @@ const annotationForm = reactive({
   category: '',
   comment: ''
 })
-
-const handleMenuSelect = (index) => {
-  activeMenu.value = index
-}
 
 const handleOnlineSearch = () => {
   console.log('Search online:', onlineFilters)
@@ -644,41 +614,8 @@ const annotationTasks = ref([
 <style scoped>
 .evaluation-page {
   height: 100%;
-  display: flex;
   background-color: #f5f7fa;
   overflow: hidden;
-}
-
-.sidebar {
-  width: 200px;
-  background-color: #fff;
-  border-right: 1px solid #e4e7ed;
-  flex-shrink: 0;
-}
-
-.sidebar-header {
-  padding: 20px 16px;
-  border-bottom: 1px solid #e4e7ed;
-}
-
-.sidebar-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin: 0;
-}
-
-.sidebar-menu {
-  border: none;
-}
-
-.sidebar-menu :deep(.el-menu-item) {
-  height: 48px;
-  line-height: 48px;
-}
-
-.sidebar-menu :deep(.el-menu-item.is-active) {
-  background-color: #ecf5ff;
 }
 
 .main-content {

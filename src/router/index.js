@@ -66,6 +66,12 @@ const routes = [
         name: 'Vocabulary',
         component: () => import('../views/Vocabulary.vue'),
         meta: { title: '词汇表' }
+      },
+      {
+        path: 'knowledge',
+        name: 'Knowledge',
+        component: () => import('../views/KnowledgeBase.vue'),
+        meta: { title: '知识库' }
       }
     ]
   }

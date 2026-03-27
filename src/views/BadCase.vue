@@ -1,27 +1,6 @@
 <template>
   <div class="badcase-page">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2 class="sidebar-title">BadCase 管理</h2>
-      </div>
-      <el-menu
-        :default-active="activeMenu"
-        class="sidebar-menu"
-        @select="handleMenuSelect"
-      >
-        <el-menu-item index="handling">
-          <el-icon><Warning /></el-icon>
-          <span>运营处理</span>
-        </el-menu-item>
-        <el-menu-item index="todos">
-          <el-icon><Checked /></el-icon>
-          <span>我的待办</span>
-        </el-menu-item>
-      </el-menu>
-    </aside>
-
-    <main class="main-content">
-      <template v-if="activeMenu === 'handling'">
+    <div v-show="activeMenu === 'handling'" class="page-container">
         <div class="page-header">
           <h1 class="page-title">运营处理</h1>
           <p class="page-desc">管理和处理系统检测到的 BadCase</p>
@@ -187,12 +166,11 @@
             />
           </div>
         </div>
-      </template>
-
-      <template v-if="activeMenu === 'todos'">
+      </div>
+      <div v-show="activeMenu === 'todos'" class="page-container">
         <div class="page-header">
-          <h1 class="page-title">我的待办</h1>
-          <p class="page-desc">需要我处理的 BadCase 任务</p>
+          <h1 class="page-title">个人待办</h1>
+          <p class="page-desc">分配给我的 BadCase 任务</p>
         </div>
 
         <el-row :gutter="20" class="stats-row">
@@ -326,8 +304,7 @@
             />
           </div>
         </div>
-      </template>
-    </main>
+      </div>
 
     <el-dialog v-model="processDialogVisible" title="处理 BadCase" width="700px">
       <el-form :model="processForm" label-width="100px">
@@ -366,14 +343,15 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import {
   Warning, Checked, Search, UserFilled, Clock, Bell, CircleCheckFilled
 } from '@element-plus/icons-vue'
 
 const router = useRouter()
-const activeMenu = ref('handling')
+const route = useRoute()
+const activeMenu = computed(() => route.query.type || 'handling')
 const processDialogVisible = ref(false)
 const currentCase = ref(null)
 const handlingCurrentPage = ref(1)
@@ -398,10 +376,6 @@ const processForm = reactive({
   comment: '',
   correctAnswer: ''
 })
-
-const handleMenuSelect = (index) => {
-  activeMenu.value = index
-}
 
 const handleHandlingSearch = () => console.log('Search handling:', handlingFilters)
 const handleHandlingReset = () => {
@@ -487,45 +461,12 @@ const todoList = ref([
 <style scoped>
 .badcase-page {
   height: 100%;
-  display: flex;
   background-color: #f5f7fa;
   overflow: hidden;
 }
 
-.sidebar {
-  width: 200px;
-  background-color: #fff;
-  border-right: 1px solid #e4e7ed;
-  flex-shrink: 0;
-}
-
-.sidebar-header {
-  padding: 20px 16px;
-  border-bottom: 1px solid #e4e7ed;
-}
-
-.sidebar-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin: 0;
-}
-
-.sidebar-menu {
-  border: none;
-}
-
-.sidebar-menu :deep(.el-menu-item) {
-  height: 48px;
-  line-height: 48px;
-}
-
-.sidebar-menu :deep(.el-menu-item.is-active) {
-  background-color: #ecf5ff;
-}
-
-.main-content {
-  flex: 1;
+.page-container {
+  height: 100%;
   overflow: auto;
   padding: 20px 24px;
 }
