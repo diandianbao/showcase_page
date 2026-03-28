@@ -4,6 +4,19 @@
         <div class="page-header">
           <h1 class="page-title">运营处理</h1>
           <p class="page-desc">管理和处理系统检测到的 BadCase</p>
+          <div class="app-selector-section">
+            <div class="selector-title">选择应用 / Agent</div>
+            <el-tree-select
+              v-model="selectedApp"
+              placeholder="请选择应用或 Agent"
+              :data="appTreeData"
+              :default-expand-all="true"
+              style="width: 280px;"
+              clearable
+              check-strictly
+              @change="handleAppChange"
+            />
+          </div>
         </div>
 
         <el-row :gutter="20" class="stats-row">
@@ -171,6 +184,19 @@
         <div class="page-header">
           <h1 class="page-title">个人待办</h1>
           <p class="page-desc">分配给我的 BadCase 任务</p>
+          <div class="app-selector-section">
+            <div class="selector-title">选择应用 / Agent</div>
+            <el-tree-select
+              v-model="selectedApp"
+              placeholder="请选择应用或 Agent"
+              :data="appTreeData"
+              :default-expand-all="true"
+              style="width: 280px;"
+              clearable
+              check-strictly
+              @change="handleAppChange"
+            />
+          </div>
         </div>
 
         <el-row :gutter="20" class="stats-row">
@@ -358,6 +384,38 @@ const handlingCurrentPage = ref(1)
 const handlingPageSize = ref(20)
 const todoCurrentPage = ref(1)
 const todoPageSize = ref(20)
+const selectedApp = ref('')
+
+const appTreeData = ref([
+  {
+    value: 'smart_cs',
+    label: '智能客服',
+    children: [
+      { value: 'smart_cs_ai_agent', label: 'AI 助手' },
+      { value: 'smart_cs_qa_agent', label: '问答机器人' }
+    ]
+  },
+  {
+    value: 'content_gen',
+    label: '内容生成',
+    children: [
+      { value: 'content_gen_article_agent', label: '文章助手' },
+      { value: 'content_gen_copy_agent', label: '文案生成' }
+    ]
+  },
+  {
+    value: 'data_analysis',
+    label: '数据分析',
+    children: [
+      { value: 'data_analysis_sales_agent', label: '销售分析' },
+      { value: 'data_analysis_user_agent', label: '用户分析' }
+    ]
+  }
+])
+
+const handleAppChange = (app) => {
+  console.log('App changed:', app)
+}
 
 const handlingFilters = reactive({
   issueType: '',
@@ -480,6 +538,29 @@ const todoList = ref([
   font-weight: 600;
   color: #303133;
   margin: 0 0 8px 0;
+}
+
+.page-desc {
+  font-size: 14px;
+  color: #909399;
+  margin: 0 0 12px 0;
+}
+
+.app-selector-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.selector-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #606266;
+  white-space: nowrap;
 }
 
 .page-desc {

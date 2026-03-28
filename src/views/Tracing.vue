@@ -2,16 +2,29 @@
   <div class="tracing-page">
     <div class="page-header">
       <div class="header-row">
-        <h1 class="page-title">Tracing</h1>
+        <h1 class="page-title">追踪</h1>
         <p class="page-desc">追踪 AI 应用调用的完整生命周期</p>
+      </div>
+      <div class="app-selector-section">
+        <div class="selector-title">选择应用 / Agent</div>
+        <el-tree-select
+          v-model="selectedApp"
+          placeholder="请选择应用或 Agent"
+          :data="appTreeData"
+          :default-expand-all="true"
+          style="width: 280px;"
+          clearable
+          check-strictly
+          @change="handleAppChange"
+        />
       </div>
       <div class="header-tabs">
         <div class="tab" :class="{ active: activeTab === 'traces' }" @click="activeTab = 'traces'">
-          Traces
+          追踪
           <span class="tab-count">15</span>
         </div>
         <div class="tab" :class="{ active: activeTab === 'observations' }" @click="activeTab = 'observations'">
-          Observations
+          观测
           <span class="tab-count">87</span>
         </div>
       </div>
@@ -218,8 +231,8 @@
                 style="width: 360px;"
               />
             </el-form-item>
-            <el-form-item label="Observation ID">
-              <el-input v-model="obsFilters.obsId" placeholder="输入 Observation ID" size="default" style="width: 200px;" clearable />
+            <el-form-item label="观测 ID">
+              <el-input v-model="obsFilters.obsId" placeholder="输入观测 ID" size="default" style="width: 200px;" clearable />
             </el-form-item>
             <el-form-item label="Trace ID">
               <el-input v-model="obsFilters.traceId" placeholder="所属 Trace ID" size="default" style="width: 200px;" clearable />
@@ -282,7 +295,7 @@
       <div class="observations-section">
         <div class="section-header">
           <div class="section-left">
-            <span class="section-title">Observation 列表</span>
+            <span class="section-title">观测列表</span>
             <el-tag size="small" type="info">共 {{ observations.length }} 条</el-tag>
           </div>
           <div class="section-right">
@@ -337,7 +350,7 @@
                 <span class="time-text">{{ row.startTime }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="id" label="Observation ID" width="180">
+            <el-table-column prop="id" label="观测 ID" width="180">
               <template #default="{ row }">
                 <span class="obs-id-text">{{ row.id }}</span>
               </template>
@@ -424,6 +437,38 @@ import {
 
 const route = useRoute()
 const activeTab = ref('traces')
+const selectedApp = ref('')
+
+const appTreeData = ref([
+  {
+    value: 'smart_cs',
+    label: '智能客服',
+    children: [
+      { value: 'smart_cs_ai_agent', label: 'AI 助手' },
+      { value: 'smart_cs_qa_agent', label: '问答机器人' }
+    ]
+  },
+  {
+    value: 'content_gen',
+    label: '内容生成',
+    children: [
+      { value: 'content_gen_article_agent', label: '文章助手' },
+      { value: 'content_gen_copy_agent', label: '文案生成' }
+    ]
+  },
+  {
+    value: 'data_analysis',
+    label: '数据分析',
+    children: [
+      { value: 'data_analysis_sales_agent', label: '销售分析' },
+      { value: 'data_analysis_user_agent', label: '用户分析' }
+    ]
+  }
+])
+
+const handleAppChange = (app) => {
+  console.log('App changed:', app)
+}
 const obsCurrentPage = ref(1)
 const obsPageSize = ref(20)
 const traceCurrentPage = ref(1)
@@ -873,9 +918,26 @@ const observations = ref([
 
 .header-row {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 12px;
+}
+
+.app-selector-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.selector-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #606266;
+  white-space: nowrap;
 }
 
 .page-title {

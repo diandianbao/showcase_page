@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-page">
     <div class="page-header">
-      <h1 class="page-title">Dashboard</h1>
+      <h1 class="page-title">看板</h1>
       <div class="header-actions">
         <el-date-picker
           v-model="dateRange"
@@ -25,7 +25,7 @@
             </div>
             <div class="stat-info">
               <div class="stat-value">2,345</div>
-              <div class="stat-label">Total Traces</div>
+              <div class="stat-label">总追踪数</div>
               <div class="stat-trend up">↑ 12.5% 较上周</div>
             </div>
           </el-card>
@@ -37,7 +37,7 @@
             </div>
             <div class="stat-info">
               <div class="stat-value">98.5%</div>
-              <div class="stat-label">Success Rate</div>
+              <div class="stat-label">成功率</div>
               <div class="stat-trend up">↑ 0.3% 较上周</div>
             </div>
           </el-card>
@@ -49,7 +49,7 @@
             </div>
             <div class="stat-info">
               <div class="stat-value">342ms</div>
-              <div class="stat-label">Avg Latency</div>
+              <div class="stat-label">平均耗时</div>
               <div class="stat-trend down">↓ 18ms 较上周</div>
             </div>
           </el-card>
@@ -61,7 +61,7 @@
             </div>
             <div class="stat-info">
               <div class="stat-value">23</div>
-              <div class="stat-label">BadCases</div>
+              <div class="stat-label">BadCase 数</div>
               <div class="stat-trend down">↓ 5 较上周</div>
             </div>
           </el-card>
@@ -291,7 +291,7 @@
         <el-col :span="12">
           <el-card>
             <template #header>
-              <span class="card-title">Trace Trends (7 天)</span>
+              <span class="card-title">Trace 趋势 (7 天)</span>
             </template>
             <div class="chart-placeholder">
               <el-icon><TrendCharts /></el-icon>
@@ -302,7 +302,7 @@
         <el-col :span="12">
           <el-card>
             <template #header>
-              <span class="card-title">Top Models</span>
+              <span class="card-title">热门模型</span>
             </template>
             <div class="chart-placeholder">
               <el-icon><PieChart /></el-icon>

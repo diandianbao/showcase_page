@@ -11,7 +11,7 @@ const routes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('../views/Dashboard.vue'),
-        meta: { title: 'Dashboard' }
+        meta: { title: '看板' }
       },
       {
         path: 'my-todos',
@@ -23,13 +23,13 @@ const routes = [
         path: 'tracing',
         name: 'Tracing',
         component: () => import('../views/Tracing.vue'),
-        meta: { title: 'Tracing' }
+        meta: { title: '追踪' }
       },
       {
         path: 'sessions',
         name: 'Sessions',
         component: () => import('../views/Sessions.vue'),
-        meta: { title: 'Sessions' }
+        meta: { title: '会话' }
       },
       {
         path: 'evaluation',

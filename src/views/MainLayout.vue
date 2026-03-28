@@ -31,7 +31,7 @@
               @click="$router.push('/dashboard')"
             >
               <el-icon><DataAnalysis /></el-icon>
-              <span>Dashboard</span>
+              <span>看板</span>
             </li>
           </ul>
         </div>
@@ -46,7 +46,7 @@
               @click="$router.push('/tracing')"
             >
               <el-icon><Connection /></el-icon>
-              <span>Tracing</span>
+              <span>追踪</span>
             </li>
             <li
               class="nav-item"
@@ -54,7 +54,7 @@
               @click="$router.push('/sessions')"
             >
               <el-icon><ChatDotRound /></el-icon>
-              <span>Sessions</span>
+              <span>会话</span>
             </li>
           </ul>
         </div>
