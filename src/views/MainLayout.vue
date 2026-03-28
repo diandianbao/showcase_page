@@ -200,7 +200,7 @@
             <div class="user-avatar-wrapper">
               <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
               <div class="user-name-section">
-                <span class="user-name">joe liu</span>
+                <span class="user-name">Alice</span>
                 <el-icon class="arrow-icon"><ArrowDown /></el-icon>
               </div>
             </div>
@@ -210,8 +210,8 @@
                   <div class="dropdown-user-info">
                     <el-avatar :size="48" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" style="margin-right: 12px;" />
                     <div class="dropdown-user-detail">
-                      <div class="dropdown-user-name">joe liu</div>
-                      <div class="dropdown-user-email">joe.liu@example.com</div>
+                      <div class="dropdown-user-name">Alice</div>
+                      <div class="dropdown-user-email">alice@example.com</div>
                     </div>
                   </div>
                 </el-dropdown-item>
