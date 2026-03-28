@@ -160,25 +160,104 @@
           </ul>
         </div>
       </nav>
-
-      <!-- 底部用户信息 -->
-      <div class="sidebar-footer">
-        <div class="user-info">
-          <el-avatar :size="32" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-          <span class="user-name">joe liu</span>
-        </div>
-      </div>
     </aside>
 
     <!-- 主内容区域 -->
     <main class="main-content">
+      <!-- 顶部用户信息栏 -->
+      <header class="top-header">
+        <div class="header-left">
+          <slot name="header-left"></slot>
+        </div>
+        <div class="header-right">
+          <!-- 角色选择 -->
+          <div class="role-selector-wrapper">
+            <el-select
+              v-model="selectedRole"
+              placeholder="选择角色"
+              size="small"
+              style="width: 160px;"
+              @change="handleRoleChange"
+            >
+              <el-option
+                v-for="role in roleList"
+                :key="role.value"
+                :label="role.label"
+                :value="role.value"
+              >
+                <span style="float: left">{{ role.label }}</span>
+                <el-tag
+                  size="small"
+                  :type="role.tagType"
+                  style="float: right; margin-left: 8px;"
+                >
+                  {{ role.tag }}
+                </el-tag>
+              </el-option>
+            </el-select>
+          </div>
+          <el-dropdown trigger="click" @command="handleUserCommand">
+            <div class="user-avatar-wrapper">
+              <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+              <div class="user-name-section">
+                <span class="user-name">joe liu</span>
+                <el-icon class="arrow-icon"><ArrowDown /></el-icon>
+              </div>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <div class="dropdown-user-info">
+                    <el-avatar :size="48" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" style="margin-right: 12px;" />
+                    <div class="dropdown-user-detail">
+                      <div class="dropdown-user-name">joe liu</div>
+                      <div class="dropdown-user-email">joe.liu@example.com</div>
+                    </div>
+                  </div>
+                </el-dropdown-item>
+                <el-dropdown-item divided command="profile">
+                  <el-icon><User /></el-icon>
+                  个人信息
+                </el-dropdown-item>
+                <el-dropdown-item command="settings">
+                  <el-icon><Setting /></el-icon>
+                  用户配置
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+      </header>
       <router-view />
     </main>
   </div>
 </template>
 
 <script setup>
-import { Monitor, Document, DataAnalysis, Connection, ChatDotRound, FolderOpened, EditPen, Aim, Collection, Notebook, Warning, Checked } from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import { Monitor, Document, DataAnalysis, Connection, ChatDotRound, FolderOpened, EditPen, Aim, Collection, Notebook, Warning, Checked, User, Setting, ArrowDown } from '@element-plus/icons-vue'
+
+const selectedRole = ref('operator')
+
+const roleList = ref([
+  { value: 'operator', label: '运营人员', tag: '运营', tagType: 'primary' },
+  { value: 'business', label: '业务人员', tag: '业务', tagType: 'success' },
+  { value: 'algorithm', label: 'IT 算法工程师', tag: '算法', tagType: 'warning' }
+])
+
+const handleRoleChange = (role) => {
+  console.log('Role changed:', role)
+  //  TODO: 根据角色切换页面权限或视图
+}
+
+const handleUserCommand = (command) => {
+  console.log('User command:', command)
+  if (command === 'profile') {
+    console.log('View profile')
+  } else if (command === 'settings') {
+    console.log('Open settings')
+  }
+}
 </script>
 
 <style scoped>
@@ -292,27 +371,92 @@ import { Monitor, Document, DataAnalysis, Connection, ChatDotRound, FolderOpened
   justify-content: center;
 }
 
-/* 底部用户信息 */
-.sidebar-footer {
-  padding: 12px 20px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.user-name {
-  font-size: 14px;
-  color: #606266;
-}
-
 /* 主内容区域 */
 .main-content {
   flex: 1;
   overflow: auto;
   background-color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部用户信息栏 */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #fff;
+  border-bottom: 1px solid #e4e7ed;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.role-selector-wrapper {
+  padding: 4px 0;
+}
+
+.user-avatar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.user-avatar-wrapper:hover {
+  background-color: #f5f7fa;
+}
+
+.user-name-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.user-name {
+  font-size: 14px;
+  color: #303133;
+  font-weight: 500;
+}
+
+.arrow-icon {
+  font-size: 14px;
+  color: #909399;
+}
+
+/* 下拉菜单用户信息 */
+.dropdown-user-info {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.dropdown-user-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dropdown-user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.dropdown-user-email {
+  font-size: 12px;
+  color: #909399;
 }
 </style>
